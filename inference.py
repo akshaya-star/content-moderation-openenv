@@ -28,10 +28,14 @@ if str(_SRC) not in sys.path:
 from content_moderation_env.client import ContentModerationEnv  # noqa: E402
 from content_moderation_env.models import ModerationAction  # noqa: E402
 
-API_KEY = os.getenv("HF_TOKEN") or os.getenv("OPENAI_API_KEY") or ""
-API_BASE_URL = os.getenv("API_BASE_URL") or "https://router.huggingface.co/v1"
-MODEL_NAME = os.getenv("MODEL_NAME") or "Qwen/Qwen2.5-72B-Instruct"
-OPENENV_BASE_URL = os.getenv("OPENENV_BASE_URL") or "http://127.0.0.1:8000"
+HF_TOKEN = os.getenv("HF_TOKEN")
+API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
+MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-72B-Instruct")
+
+# Optional - if you use from_docker_image():
+LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME")
+
+OPENENV_BASE_URL = os.getenv("OPENENV_BASE_URL", "http://127.0.0.1:8000")
 BENCHMARK = "content-moderation-openenv"
 
 
@@ -145,7 +149,7 @@ def run_task(task: str, client: OpenAI) -> Tuple[bool, int, float, List[float]]:
 
 
 def main() -> None:
-    client = OpenAI(base_url=API_BASE_URL, api_key=API_KEY or "dummy")
+    client = OpenAI(base_url=API_BASE_URL, api_key=HF_TOKEN or "dummy")
     tasks = ["easy", "medium", "hard"]
     for task in tasks:
         success = False
