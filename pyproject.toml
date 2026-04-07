@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "content-moderation-openenv"
+version = "0.1.0"
+description = "OpenEnv: content moderation tasks (easy, medium, hard)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "openenv-core>=0.2.3",
+  "pydantic>=2.0",
+  "fastapi>=0.100",
+  "uvicorn[standard]>=0.23",
+  "openai>=1.0",
+  "websockets>=15.0",
+]
+
+[project.scripts]
+server = "server.app:main"
+
+[tool.setuptools]
+packages = ["content_moderation_env", "server"]
+
+[tool.setuptools.package-dir]
+content_moderation_env = "src/content_moderation_env"
+server = "server"

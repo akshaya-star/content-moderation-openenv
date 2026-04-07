@@ -1,0 +1,226 @@
+[
+  {
+    "episode_id": "h_ep01",
+    "messages": [
+      {
+        "id": "h01_a",
+        "text": "Here is the recipe you asked for — enjoy baking this weekend!",
+        "expected_decision": "APPROVE",
+        "is_safe": true
+      },
+      {
+        "id": "h01_b",
+        "text": "You are pathetic and nobody likes you here.",
+        "expected_decision": "FLAG",
+        "labels": ["harassment"],
+        "consistency_group": "g1"
+      },
+      {
+        "id": "h01_c",
+        "text": "You are pathetic — just leave this chat.",
+        "expected_decision": "FLAG",
+        "labels": ["harassment"],
+        "consistency_group": "g1"
+      },
+      {
+        "id": "h01_d",
+        "text": "Join my webinar: free PDF, no obligations, just register.",
+        "expected_decision": "APPROVE",
+        "is_safe": true
+      }
+    ]
+  },
+  {
+    "episode_id": "h_ep02",
+    "messages": [
+      {
+        "id": "h02_a",
+        "text": "The quarterly numbers are attached for finance review.",
+        "expected_decision": "APPROVE",
+        "is_safe": true
+      },
+      {
+        "id": "h02_b",
+        "text": "LIMITED OFFER buy followers now click my bio link!!!",
+        "expected_decision": "FLAG",
+        "labels": ["spam"]
+      },
+      {
+        "id": "h02_c",
+        "text": "LIMITED OFFER buy likes now click my bio link!!!",
+        "expected_decision": "FLAG",
+        "labels": ["spam"],
+        "consistency_group": "sp"
+      },
+      {
+        "id": "h02_d",
+        "text": "LIMITED OFFER buy views now click my bio link!!!",
+        "expected_decision": "FLAG",
+        "labels": ["spam"],
+        "consistency_group": "sp"
+      }
+    ]
+  },
+  {
+    "episode_id": "h_ep03",
+    "messages": [
+      {
+        "id": "h03_a",
+        "text": "Can we reschedule the 1:1 to Thursday afternoon?",
+        "expected_decision": "APPROVE",
+        "is_safe": true
+      },
+      {
+        "id": "h03_b",
+        "text": "I know where you live and I am coming tonight.",
+        "expected_decision": "BLOCK",
+        "labels": ["threat"]
+      },
+      {
+        "id": "h03_c",
+        "text": "Hope everyone has a good evening — see you tomorrow.",
+        "expected_decision": "APPROVE",
+        "is_safe": true
+      }
+    ]
+  },
+  {
+    "episode_id": "h_ep04",
+    "messages": [
+      {
+        "id": "h04_a",
+        "text": "Documentation patch is ready for review.",
+        "expected_decision": "APPROVE",
+        "is_safe": true
+      },
+      {
+        "id": "h04_b",
+        "text": "Your identity should disqualify you from posting here.",
+        "expected_decision": "BLOCK",
+        "labels": ["hate"],
+        "consistency_group": "hg"
+      },
+      {
+        "id": "h04_c",
+        "text": "People like you should not be allowed to speak in public.",
+        "expected_decision": "BLOCK",
+        "labels": ["hate"],
+        "consistency_group": "hg"
+      }
+    ]
+  },
+  {
+    "episode_id": "h_ep05",
+    "messages": [
+      {
+        "id": "h05_a",
+        "text": "Weather looks nice for the outdoor event Saturday.",
+        "expected_decision": "APPROVE",
+        "is_safe": true
+      },
+      {
+        "id": "h05_b",
+        "text": "Minor disagreement but I see your point on the timeline.",
+        "expected_decision": "APPROVE",
+        "is_safe": true
+      },
+      {
+        "id": "h05_c",
+        "text": "Spam spam spam buy now spam spam",
+        "expected_decision": "FLAG",
+        "labels": ["spam"]
+      },
+      {
+        "id": "h05_d",
+        "text": "Thanks for moderating — closing the thread.",
+        "expected_decision": "APPROVE",
+        "is_safe": true
+      },
+      {
+        "id": "h05_e",
+        "text": "You deserve to be harassed until you log off forever.",
+        "expected_decision": "FLAG",
+        "labels": ["harassment"]
+      }
+    ]
+  },
+  {
+    "episode_id": "h_ep06",
+    "messages": [
+      {
+        "id": "h06_a",
+        "text": "Sharing a neutral news article with citations.",
+        "expected_decision": "APPROVE",
+        "is_safe": true
+      },
+      {
+        "id": "h06_b",
+        "text": "I will hurt you if you report my account again.",
+        "expected_decision": "BLOCK",
+        "labels": ["threat"]
+      }
+    ]
+  },
+  {
+    "episode_id": "h_ep07",
+    "messages": [
+      {
+        "id": "h07_a",
+        "text": "Pizza place recommendation downtown — very family friendly.",
+        "expected_decision": "APPROVE",
+        "is_safe": true
+      },
+      {
+        "id": "h07_b",
+        "text": "Automated bot: posting same coupon in 30 threads.",
+        "expected_decision": "FLAG",
+        "labels": ["spam"]
+      },
+      {
+        "id": "h07_c",
+        "text": "Automated bot: posting same coupon in 31 threads.",
+        "expected_decision": "FLAG",
+        "labels": ["spam"],
+        "consistency_group": "bot"
+      },
+      {
+        "id": "h07_d",
+        "text": "Automated bot: posting same coupon in 32 threads.",
+        "expected_decision": "FLAG",
+        "labels": ["spam"],
+        "consistency_group": "bot"
+      }
+    ]
+  },
+  {
+    "episode_id": "h_ep08",
+    "messages": [
+      {
+        "id": "h08_a",
+        "text": "Legitimate question about API rate limits.",
+        "expected_decision": "APPROVE",
+        "is_safe": true
+      },
+      {
+        "id": "h08_b",
+        "text": "Short insult with no threat.",
+        "expected_decision": "FLAG",
+        "labels": ["harassment"]
+      },
+      {
+        "id": "h08_c",
+        "text": "Another short insult, same tone as previous.",
+        "expected_decision": "FLAG",
+        "labels": ["harassment"],
+        "consistency_group": "ins"
+      },
+      {
+        "id": "h08_d",
+        "text": "Third short insult, same tone as previous.",
+        "expected_decision": "FLAG",
+        "labels": ["harassment"],
+        "consistency_group": "ins"
+      }
+    ]
+  }
+]

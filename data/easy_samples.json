@@ -1,0 +1,72 @@
+[
+  {
+    "id": "e001",
+    "text": "Thanks for shipping the order — the package arrived on Tuesday.",
+    "labels": [],
+    "expected_decision": "APPROVE",
+    "severity": "low"
+  },
+  {
+    "id": "e002",
+    "text": "BUY NOW!!! CLICK HERE FOR FREE IPHONE!!! LIMITED TIME OFFER!!!",
+    "labels": ["spam"],
+    "expected_decision": "FLAG",
+    "severity": "medium"
+  },
+  {
+    "id": "e003",
+    "text": "You are useless and should disappear from this forum.",
+    "labels": ["harassment"],
+    "expected_decision": "BLOCK",
+    "severity": "high"
+  },
+  {
+    "id": "e004",
+    "text": "Here is the meeting notes doc link for the team: https://example.com/notes",
+    "labels": [],
+    "expected_decision": "APPROVE",
+    "severity": "low"
+  },
+  {
+    "id": "e005",
+    "text": "Repeat posting: join my crypto group dm me fast profits guaranteed",
+    "labels": ["spam"],
+    "expected_decision": "FLAG",
+    "severity": "medium"
+  },
+  {
+    "id": "e006",
+    "text": "I will find you offline and hurt your family if you keep posting.",
+    "labels": ["threat"],
+    "expected_decision": "BLOCK",
+    "severity": "high"
+  },
+  {
+    "id": "e007",
+    "text": "Could someone review my pull request when they have time?",
+    "labels": [],
+    "expected_decision": "APPROVE",
+    "severity": "low"
+  },
+  {
+    "id": "e008",
+    "text": "This community is trash and everyone here is worthless.",
+    "labels": ["harassment"],
+    "expected_decision": "FLAG",
+    "severity": "medium"
+  },
+  {
+    "id": "e009",
+    "text": "Posting the same ad fifty times in one hour",
+    "labels": ["spam"],
+    "expected_decision": "FLAG",
+    "severity": "medium"
+  },
+  {
+    "id": "e010",
+    "text": "People like you deserve to be erased from the internet.",
+    "labels": ["hate"],
+    "expected_decision": "BLOCK",
+    "severity": "high"
+  }
+]

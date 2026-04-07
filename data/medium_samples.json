@@ -1,0 +1,72 @@
+[
+  {
+    "id": "m001",
+    "text": "Lovely photos from the weekend hike — thanks for sharing!",
+    "labels": ["none"],
+    "expected_decision": "APPROVE",
+    "severity": "low"
+  },
+  {
+    "id": "m002",
+    "text": "URGENT: Send gift cards to this address to unlock your account.",
+    "labels": ["spam"],
+    "expected_decision": "FLAG",
+    "severity": "high"
+  },
+  {
+    "id": "m003",
+    "text": "You constantly fail; nobody should listen to anything you say.",
+    "labels": ["harassment"],
+    "expected_decision": "FLAG",
+    "severity": "medium"
+  },
+  {
+    "id": "m004",
+    "text": "Your group is inferior and should not exist in public spaces.",
+    "labels": ["hate"],
+    "expected_decision": "BLOCK",
+    "severity": "high"
+  },
+  {
+    "id": "m005",
+    "text": "Reminder: standup is at 10am — agenda is in the doc.",
+    "labels": ["none"],
+    "expected_decision": "APPROVE",
+    "severity": "low"
+  },
+  {
+    "id": "m006",
+    "text": "If you ever show up here again I will make you regret it.",
+    "labels": ["threat"],
+    "expected_decision": "BLOCK",
+    "severity": "high"
+  },
+  {
+    "id": "m007",
+    "text": "Copy-paste this referral code to 20 subreddits today!!!",
+    "labels": ["spam"],
+    "expected_decision": "FLAG",
+    "severity": "medium"
+  },
+  {
+    "id": "m008",
+    "text": "You look stupid in every comment you write.",
+    "labels": ["harassment"],
+    "expected_decision": "FLAG",
+    "severity": "medium"
+  },
+  {
+    "id": "m009",
+    "text": "Neutral summary of the paper findings for the reading group.",
+    "labels": ["none"],
+    "expected_decision": "APPROVE",
+    "severity": "low"
+  },
+  {
+    "id": "m010",
+    "text": "Promoting violence against a specific neighborhood tonight.",
+    "labels": ["hate", "threat"],
+    "expected_decision": "BLOCK",
+    "severity": "high"
+  }
+]
