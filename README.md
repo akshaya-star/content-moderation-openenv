@@ -1,3 +1,13 @@
+---
+title: Content Moderation Openenv
+emoji: 🛡️
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 8000
+pinned: false
+---
+
 # Content Moderation OpenEnv
 
 Train and evaluate LLM agents on **realistic content moderation**: triage user-generated text, assign harm categories, and stay consistent across a queue—tasks human moderators perform daily on social platforms, marketplaces, and support systems.
@@ -137,6 +147,3 @@ Ping `GET /health` and run `openenv validate --url https://<your-space>.hf.space
 - `inference.py` — baseline LLM runner
 - `openenv.yaml`, `Dockerfile`, `pyproject.toml`, `requirements.txt`
 
-## License
-
-BSD-style (align with OpenEnv); adjust to your org’s policy before submission.
