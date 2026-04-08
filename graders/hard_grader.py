@@ -24,7 +24,7 @@ def grade(prediction: Dict[str, Any], ground_truth: Dict[str, Any]) -> float:
 
     n = len(messages)
     if n == 0:
-        return 1.0
+        return 0.99
 
     per_msg_scores: List[float] = []
     fp_pen = 0.0
@@ -77,4 +77,4 @@ def grade(prediction: Dict[str, Any], ground_truth: Dict[str, Any]) -> float:
 
     base = sum(per_msg_scores) / n if n else 0.0
     raw = base + consistency_bonus - fp_pen - miss_pen
-    return max(0.0, min(1.0, float(raw)))
+    return max(0.01, min(0.99, float(raw)))

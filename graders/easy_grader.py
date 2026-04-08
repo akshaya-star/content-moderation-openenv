@@ -14,5 +14,5 @@ def grade(prediction: Dict[str, Any], ground_truth: Dict[str, Any]) -> float:
     exp = (ground_truth.get("expected_decision") or "").strip().upper()
     got = (prediction.get("decision") or "").strip().upper()
     if not exp or not got:
-        return 0.0
-    return 1.0 if got == exp else 0.0
+        return 0.01
+    return 0.99 if got == exp else 0.01

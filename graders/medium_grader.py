@@ -38,4 +38,4 @@ def grade(prediction: Dict[str, Any], ground_truth: Dict[str, Any]) -> float:
         sev_score = 1.0
 
     raw = w_dec * dec_score + w_cat * cat_score + w_sev * sev_score
-    return max(0.0, min(1.0, float(raw)))
+    return max(0.01, min(0.99, float(raw)))
