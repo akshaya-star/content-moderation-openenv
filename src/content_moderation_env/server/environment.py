@@ -58,36 +58,52 @@ class ContentModerationEnvironment(
         episode_id: Optional[str] = None,
         **kwargs: Any,
     ) -> ModerationObservation:
-        self._last_action_error = None
-        task = kwargs.get("task", "easy")
-        if task not in ("easy", "medium", "hard"):
-            task = "easy"
-        self._task = task
-
-        samples = utils.load_json_samples(task)
-        self._episode = utils.pick_episode(samples, seed, episode_id)
-        self._cursor = 0
-        self._hard_preds = []
-
-        if task == "hard":
-            self._messages = list(self._episode.get("messages") or [])
-        else:
-            self._messages = [self._episode]
-
-        eid = self._episode.get("episode_id") or self._episode.get("id")
-        self._state = ModerationState(
-            episode_id=str(uuid.uuid4()),
-            step_count=0,
-            task=task,
-            sample_id=str(eid) if eid else None,
-            episode_score=0.0,
-        )
-
-        return self._build_obs(
-            done=False,
-            reward=None,
-            episode_score=None,
-        )
+        try:
+            self._last_action_error = None
+            task = kwargs.get("task", "easy")
+            if task not in ("easy", "medium", "hard"):
+                task = "easy"
+            self._task = task
+    
+            samples = utils.load_json_samples(task)
+            self._episode = utils.pick_episode(samples, seed, episode_id)
+            self._cursor = 0
+            self._hard_preds = []
+    
+            if task == "hard":
+                self._messages = list(self._episode.get("messages") or [])
+            else:
+                self._messages = [self._episode]
+    
+            eid = self._episode.get("episode_id") or self._episode.get("id")
+            self._state = ModerationState(
+                episode_id=str(uuid.uuid4()),
+                step_count=0,
+                task=task,
+                sample_id=str(eid) if eid else None,
+                episode_score=0.0,
+            )
+    
+            return self._build_obs(
+                done=False,
+                reward=None,
+                episode_score=None,
+            )
+        except Exception as e:
+            self._last_action_error = f"reset error: {e}"
+            self._task = kwargs.get("task", "easy")
+            return ModerationObservation(
+                done=True,
+                reward=0.0,
+                task=self._task,
+                instruction="Error",
+                current_message=None,
+                message_index=0,
+                total_messages=1,
+                queue_context=[],
+                last_action_error=self._last_action_error,
+                episode_score=0.0,
+            )
 
     def step(
         self,
@@ -95,33 +111,37 @@ class ContentModerationEnvironment(
         timeout_s: Optional[float] = None,
         **kwargs: Any,
     ) -> ModerationObservation:
-        self._state.step_count += 1
-        self._last_action_error = None
-
-        err = self._validate_action(action)
-        if err:
-            self._last_action_error = err
-            if self._task in ("easy", "medium"):
-                self._state.episode_score = 0.0
+        try:
+            self._state.step_count += 1
+            self._last_action_error = None
+    
+            err = self._validate_action(action)
+            if err:
+                self._last_action_error = err
+                if self._task in ("easy", "medium"):
+                    self._state.episode_score = 0.0
+                    return self._build_obs(
+                        done=True,
+                        reward=-0.05,
+                        episode_score=0.0,
+                    )
                 return self._build_obs(
-                    done=True,
+                    done=False,
                     reward=-0.05,
-                    episode_score=0.0,
+                    episode_score=None,
                 )
-            return self._build_obs(
-                done=False,
-                reward=-0.05,
-                episode_score=None,
-            )
-
-        d = utils.normalize_decision(action.decision)
-        cat = utils.normalize_category(action.category)
-        sev = utils.normalize_severity(action.severity)
-
-        if self._task in ("easy", "medium"):
-            return self._step_single(d, cat, sev)
-
-        return self._step_hard(d, cat, sev)
+    
+            d = utils.normalize_decision(action.decision)
+            cat = utils.normalize_category(action.category)
+            sev = utils.normalize_severity(action.severity)
+    
+            if self._task in ("easy", "medium"):
+                return self._step_single(d, cat, sev)
+    
+            return self._step_hard(d, cat, sev)
+        except Exception as e:
+            self._last_action_error = f"step error: {e}"
+            return self._build_obs(done=True, reward=0.0, episode_score=0.0)
 
     def _validate_action(self, action: ModerationAction) -> Optional[str]:
         d = utils.normalize_decision(action.decision)

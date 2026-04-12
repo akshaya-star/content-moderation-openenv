@@ -11,8 +11,13 @@ def grade(prediction: Dict[str, Any], ground_truth: Dict[str, Any]) -> float:
     prediction keys: decision
     ground_truth keys: expected_decision
     """
-    exp = (ground_truth.get("expected_decision") or "").strip().upper()
-    got = (prediction.get("decision") or "").strip().upper()
-    if not exp or not got:
-        return 0.01
-    return 0.99 if got == exp else 0.01
+    try:
+        exp = (ground_truth.get("expected_decision") or "").strip().upper()
+        got = (prediction.get("decision") or "").strip().upper()
+        if not exp or not got:
+            score = 0.01
+        else:
+            score = 0.99 if got == exp else 0.01
+        return max(0.0, min(1.0, float(score)))
+    except Exception:
+        return 0.0

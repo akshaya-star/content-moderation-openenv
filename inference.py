@@ -117,14 +117,10 @@ def run_task(task: str, client: OpenAI) -> Tuple[bool, int, float, List[float]]:
     with env_client.sync() as env:
         res = env.reset(seed=42, task=task)
         obs = res.observation
-        print(
-            f"[START] task={task} env={BENCHMARK} model={MODEL_NAME}",
-            flush=True,
-        )
         while not obs.done:
             prompt = _observation_prompt(task, obs)
             action = _llm_moderate(client, task, prompt)
-            action_str = json.dumps(action.model_dump(), separators=(",", ":"))
+            action_str = json.dumps(action.model_dump(exclude_none=True), separators=(",", ":"))
             sr = env.step(action)
             obs = sr.observation
             steps += 1
@@ -152,13 +148,17 @@ def main() -> None:
     client = OpenAI(base_url=API_BASE_URL, api_key=HF_TOKEN or "dummy")
     tasks = ["easy", "medium", "hard"]
     for task in tasks:
+        print(
+            f"[START] task={task} env={BENCHMARK} model={MODEL_NAME.lower()}",
+            flush=True,
+        )
         success = False
         steps = 0
         score = 0.0
         rewards: List[float] = []
         try:
             success, steps, score, rewards = run_task(task, client)
-        except Exception:
+        except Exception as e:
             success = False
         rew_csv = ",".join(_fmt_reward(x) for x in rewards)
         print(
