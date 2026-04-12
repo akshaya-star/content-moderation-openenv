@@ -39,7 +39,8 @@ except Exception as e:
     def state():
         return {"state": {"step_count": 0, "episode_score": 0.0}}
 
-app.routes = [r for r in app.routes if getattr(r, "path", None) != "/health"]
+# Remove any existing /health route registered by openenv-core before adding ours
+app.router.routes = [r for r in app.router.routes if getattr(r, "path", None) != "/health"]
 
 @app.get("/health")
 def health() -> dict:
