@@ -4,10 +4,18 @@ from __future__ import annotations
 
 from typing import Any, Dict
 
+_MIN = 0.01
+_MAX = 0.99
+
+
+def _clamp(score: float) -> float:
+    """Return score strictly in (0, 1) — never 0.0, never 1.0."""
+    return max(_MIN, min(_MAX, float(score)))
+
 
 def grade(prediction: Dict[str, Any], ground_truth: Dict[str, Any]) -> float:
     """
-    Returns float in [0.0, 1.0]. Exact match on expected_decision.
+    Returns float strictly in (0.0, 1.0). Exact match on expected_decision.
     prediction keys: decision
     ground_truth keys: expected_decision
     """
@@ -15,9 +23,9 @@ def grade(prediction: Dict[str, Any], ground_truth: Dict[str, Any]) -> float:
         exp = (ground_truth.get("expected_decision") or "").strip().upper()
         got = (prediction.get("decision") or "").strip().upper()
         if not exp or not got:
-            score = 0.01
+            score = _MIN
         else:
-            score = 0.99 if got == exp else 0.01
-        return max(0.0, min(1.0, float(score)))
+            score = _MAX if got == exp else _MIN
+        return _clamp(score)
     except Exception:
-        return 0.0
+        return _MIN

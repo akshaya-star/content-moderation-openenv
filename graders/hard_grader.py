@@ -4,6 +4,14 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
+_MIN = 0.01
+_MAX = 0.99
+
+
+def _clamp(score: float) -> float:
+    """Return score strictly in (0, 1) — never 0.0, never 1.0."""
+    return max(_MIN, min(_MAX, float(score)))
+
 
 def _decision_match(pred: str, exp: str) -> bool:
     return pred.strip().upper() == exp.strip().upper()
@@ -11,6 +19,7 @@ def _decision_match(pred: str, exp: str) -> bool:
 
 def grade(prediction: Dict[str, Any], ground_truth: Dict[str, Any]) -> float:
     """
+    Returns float strictly in (0.0, 1.0).
     prediction:
       decisions: list of {id, decision} in order
     ground_truth:
@@ -20,12 +29,11 @@ def grade(prediction: Dict[str, Any], ground_truth: Dict[str, Any]) -> float:
         messages: List[Dict[str, Any]] = ground_truth.get("messages") or []
         preds: List[Dict[str, Any]] = prediction.get("decisions") or []
 
-        by_id_gt = {m["id"]: m for m in messages if "id" in m}
         by_id_pr = {p.get("id"): p for p in preds if p.get("id")}
 
         n = len(messages)
         if n == 0:
-            return 1.0
+            return _MAX
 
         per_msg_scores: List[float] = []
         fp_pen = 0.0
@@ -78,6 +86,6 @@ def grade(prediction: Dict[str, Any], ground_truth: Dict[str, Any]) -> float:
 
         base = sum(per_msg_scores) / n if n else 0.0
         raw = base + consistency_bonus - fp_pen - miss_pen
-        return max(0.0, min(1.0, float(raw)))
+        return _clamp(raw)
     except Exception:
-        return 0.0
+        return _MIN

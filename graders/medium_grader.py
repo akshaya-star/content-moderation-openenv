@@ -4,6 +4,14 @@ from __future__ import annotations
 
 from typing import Any, Dict
 
+_MIN = 0.01
+_MAX = 0.99
+
+
+def _clamp(score: float) -> float:
+    """Return score strictly in (0, 1) — never 0.0, never 1.0."""
+    return max(_MIN, min(_MAX, float(score)))
+
 
 def _norm_cat(s: str) -> str:
     return (s or "").strip().lower()
@@ -16,6 +24,7 @@ def _norm_sev(s: str) -> str:
 def grade(prediction: Dict[str, Any], ground_truth: Dict[str, Any]) -> float:
     """
     0.5 decision + 0.3 category + 0.2 severity (normalized categories/labels).
+    Returns float strictly in (0.0, 1.0).
     prediction: decision, category (optional), severity (optional)
     ground_truth: expected_decision, labels (list), severity
     """
@@ -39,6 +48,6 @@ def grade(prediction: Dict[str, Any], ground_truth: Dict[str, Any]) -> float:
             sev_score = 1.0
 
         raw = w_dec * dec_score + w_cat * cat_score + w_sev * sev_score
-        return max(0.0, min(1.0, float(raw)))
+        return _clamp(raw)
     except Exception:
-        return 0.0
+        return _MIN

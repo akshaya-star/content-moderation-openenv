@@ -44,6 +44,11 @@ def _fmt_reward(r: float | None) -> str:
     return f"{v:.2f}"
 
 
+def _clamp_strict(v: float) -> float:
+    """Clamp to strictly (0.0, 1.0) — 0.01 min, 0.99 max."""
+    return max(0.01, min(0.99, float(v)))
+
+
 def _fmt_err(msg: str | None) -> str:
     if msg is None or msg == "":
         return "null"
@@ -136,11 +141,11 @@ def run_task(task: str, client: OpenAI) -> Tuple[bool, int, float, List[float]]:
                 flush=True,
             )
         if obs.episode_score is not None:
-            score = float(obs.episode_score)
+            score = _clamp_strict(float(obs.episode_score))
         elif rewards:
-            score = float(rewards[-1])
+            score = _clamp_strict(float(rewards[-1]))
         else:
-            score = 0.0
+            score = 0.01
     return True, steps, score, rewards
 
 
@@ -154,13 +159,14 @@ def main() -> None:
         )
         success = False
         steps = 0
-        score = 0.0
+        score = 0.01
         rewards: List[float] = []
         try:
             success, steps, score, rewards = run_task(task, client)
         except Exception as e:
             success = False
-        rew_csv = ",".join(_fmt_reward(x) for x in rewards)
+        score = _clamp_strict(score)
+        rew_csv = ",".join(_fmt_reward(_clamp_strict(x)) for x in rewards)
         print(
             f"[END] success={str(success).lower()} steps={steps} score={score:.2f} rewards={rew_csv}",
             flush=True,
